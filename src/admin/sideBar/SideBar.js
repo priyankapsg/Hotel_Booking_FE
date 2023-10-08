@@ -1,17 +1,15 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HamburgurIcon from "../../assets/icons/hamburgur.svg";
-import useAuth from '../../hooks/AuthContext';
 import './sideBar.scss';
 
 const SideBar = ({ menuOpen, setMenuOpen }) => {
 
-  const { dispatch } = useAuth();
-
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
-  };
-
+const navigate = useNavigate();  
+const handleLogout = () => {
+  sessionStorage.clear();
+  navigate("/"); 
+}
 
   return (
     <div className={`side-bar ${menuOpen && "active"}`}>
@@ -20,7 +18,6 @@ const SideBar = ({ menuOpen, setMenuOpen }) => {
           <Link
             to="/admin/dashboard"
             className="text-decoration-none fs-5 fw-bold text-white" >
-            {/* <img src={Logo} alt={Logo} /> */}
             Admin Dashboard
           </Link>
           <img
@@ -43,8 +40,8 @@ const SideBar = ({ menuOpen, setMenuOpen }) => {
           <Link to="/admin/dashboard/rooms" className="main-menu-link">
             Rooms
           </Link>
-          <Link to="/" className="main-menu-link mt-5">
-            Go To User Page
+          <Link to="/admin/dashboard/party_hall" className="main-menu-link">
+            Party Halls
           </Link>
         </div>
       </div>

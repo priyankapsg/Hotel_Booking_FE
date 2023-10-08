@@ -3,7 +3,6 @@ import React, { useRef } from 'react';
 import { FloatingLabel, Form } from "react-bootstrap";
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Logo from "../../assets/images/logo.png";
 
 
 const Registration = () => {
@@ -14,27 +13,22 @@ const Registration = () => {
   const password = useRef();
 
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
       e.preventDefault();
 
-      const user = {
+  const user = {
           name: name.current.value,
           username: username.current.value,
           email: email.current.value,
           password: password.current.value,
+          isAdmin : true
       };
-
       try {
-          await axios.post("https://booking-app-api-bvpw.onrender.com/api/auth/register", user);
-
+          await axios.post("http://localhost:5000/api/auth/register", user);
           toast.success("Successfully Registered");
-
           navigate("/signin");
-
       } catch (err) {
         toast.error("There is something wrong");
-          console.log(err);
       }
   };
 
@@ -47,11 +41,7 @@ const Registration = () => {
                           <div className="p-5 login-form login-form-wrapper shadow-lg rounded-3 w-50">
                               <div className="text-center">
                                   <div className="field-wrapper">
-                                      <Link to="/">
-                                          <img src={Logo} alt="logo" className="img-fluid text-center" />
-                                      </Link>
                                       <h3 className="my-4">Registration Form</h3>
-
                                       <form onSubmit={handleSubmit}>
                                           <FloatingLabel controlId="name" label="Name" className="mb-3">
                                               <Form.Control type="text" placeholder="Enter Your Name ... " ref={name} />
@@ -62,16 +52,13 @@ const Registration = () => {
                                           <FloatingLabel controlId="userName" label="User Name" className="mb-3">
                                               <Form.Control type="text" placeholder="Enter Your user name ... " ref={username} />
                                           </FloatingLabel>
-
                                           <FloatingLabel controlId="password" label="Password" className="mb-3">
                                               <Form.Control type="password" placeholder="Enter Your user name ... " ref={password} />
                                           </FloatingLabel>
-
                                           <button type="submit" className="headerBtn banner-btn mt-3 w-100">
                                               Registration
                                           </button>
                                       </form>
-
                                       <p className="ff-inter text-clr-dark-3 fs-14 lh-22 mt-4">
                                           Already have an account?{" "}
                                           <Link to="/signin" className="signup-btn fw-semiBold">

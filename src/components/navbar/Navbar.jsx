@@ -1,21 +1,16 @@
 import "./navbar.scss"
-import logo from '../../assets/images/logo.png'
-import { Link } from "react-router-dom"
-import useAuth from "../../hooks/AuthContext";
+import { Link } from "react-router-dom";
+
 const Navbar = () => {
 
-  const { user, dispatch } = useAuth();
-
-    const handleLogout = () => {
-        dispatch({ type: "LOGOUT" });
-    };
+  const user = sessionStorage.getItem('user');
+  const handleLogout = () => sessionStorage.clear();
 
   return (
       <div className="navbar">
           <div className="navContainer">
               <Link to='/'>
                   <span className="logo">
-                      <img src={logo} alt="" />
                   </span>
               </Link>
               <div className="navItems">

@@ -9,7 +9,7 @@ const DeleteBtn = ({ data, loading }) => {
   
   const handleDelete = async () => {
     try {
-      await axios.delete(`https://booking-app-api-bvpw.onrender.com/api/users/${data?._id}`);
+      await axios.delete(`http://localhost:5000/api/users/${data?._id}`);
 
       setTimeout(() => {
         window.location.reload();
@@ -31,7 +31,7 @@ const UsersTable = () => {
   // const [updateMode, setUpdateMode] = useState(false);
 
     const { data, loading, error } = useFetch(
-      "https://booking-app-api-bvpw.onrender.com/api/users"
+      "http://localhost:5000/api/users"
   );
   
   
@@ -43,7 +43,7 @@ const UsersTable = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>#SL</th>
+            <th>SL</th>
             <th>Name</th>
             <th>Email</th>
             <th>Username</th>
@@ -59,14 +59,6 @@ const UsersTable = () => {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td className="items-center gap-2">
-                  <span className="me-2">
-                    <img
-                      src={user?.profilePic ? user?.profilePic : UserAvator}
-                      alt="profile-img"
-                      className="img-fluid rounded-circle"
-                      width={25}
-                    />
-                  </span>
                   <span>{user?.name}</span>
                 </td>
                 <td>{user?.email}</td>

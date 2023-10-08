@@ -51,25 +51,17 @@ const Header = ({ type }) => {
 
   return (
     
-    <div className="header" style={{ backgroundImage: `url(${bannerImg})` }}>
-      <div
-        className={
-          type === "list" ? "headerContainer listMode" : "headerContainer"
-        }
-      >
- 
+    <>
         {type !== "list" && (
+    <div className="header" style={{ backgroundImage: (type !== "list" ? `url(${bannerImg})` : '') }}>
+      <div className="headerContainer">
           <>
             <h1 className="headerTitle">
-              Find your perfect <br /> place to <span className="titleColor">live</span> 
+              Find your perfect <br /> place to <span className="titleColor">Stay</span> 
             </h1>
-            <p className="headerDesc">
-              Get rewarded for your booking – unlock instant savings of 10% 
-            </p>
-            <button className="headerBtn banner-btn mt-3">Book a room</button>
           <div className="booking-wrapper">
               <div className="search-wrapper">
-                <h2 className="searchTitle">Find Hotels and Resorts</h2>
+                <h2 className="searchTitle">Find Hotels and Party</h2>
                 <div className="headerSearch row">
                   <div className="col-lg-3 col-md-6 mb-lg-0 mb-3">
                     <div className="headerSearchItem headerItemBorder ">
@@ -188,10 +180,13 @@ const Header = ({ type }) => {
           </div>
 
           </>
-        )}
       </div>
     </div>
-  );
+    )}
+    </>    
+  
+  
+  )
 };
 
 export default Header;

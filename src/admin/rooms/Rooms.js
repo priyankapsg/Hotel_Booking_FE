@@ -5,17 +5,14 @@ import useFetch from '../../hooks/useFetch';
 import RoomModal from './RoomModal';
 
 const DeleteBtn = ({ data, loading }) => {
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`https://booking-app-api-bvpw.onrender.com/api/rooms/${data?._id}/`);
 
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, "2000");
+const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/api/rooms/${data?._id}/`);
     } catch (err) {
       console.log(err);
     }
-  };
+};
 
   return (
     <button
@@ -30,8 +27,8 @@ const DeleteBtn = ({ data, loading }) => {
 
 const Rooms = () => {
 
-      const { data, loading, reFetch, error } = useFetch(
-        "https://booking-app-api-bvpw.onrender.com/api/rooms"
+const { data, loading, reFetch, error } = useFetch(
+        "http://localhost:5000/api/rooms"
   );
     
     return (
@@ -43,12 +40,11 @@ const Rooms = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>#SL</th>
+              <th>SL</th>
               <th>Title</th>
               <th>Price</th>
               <th>Description</th>
               <th>Max Capacity</th>
-              <th>Total Room</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -61,7 +57,6 @@ const Rooms = () => {
                   <td>{room?.price}</td>
                   <td>{room?.desc ? room?.desc : "Not Available"}</td>
                   <td>{room?.maxPeople} person</td>
-                  <td>{room?.roomNumbers.length}</td>
                   <td>
                     <RoomModal btnName="Edit" data={room} />
                     <DeleteBtn

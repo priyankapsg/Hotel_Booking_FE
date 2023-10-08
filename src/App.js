@@ -12,9 +12,6 @@ import Hotel from "./pages/hotel/Hotel";
 import List from "./pages/list/List";
 import Login from './pages/login/Login';
 import Registration from './pages/registration/Registration';
-import AdminRoute from "./utils/AdminRoute";
-import PrivateRoute from "./utils/PrivateRoute";
-import PublicRoute from "./utils/PublicRoute";
 
 
 function App() {
@@ -23,44 +20,17 @@ function App() {
     <BrowserRouter>
       <ToastContainer theme="colored" position="top-right" />
       <Routes>
-        <Route
-          path="admin/dashboard"
-          element={
-            <AdminRoute>
-              <Dashboard />
-            </AdminRoute>
-          }
-        >
+        <Route path="admin/dashboard" element={<Dashboard />}>
           <Route path="users" element={<UsersTable />} />
           <Route path="hotels" element={<Hotels />} />
           <Route path="rooms" element={<Rooms />} />
+          <Route path="party_hall" element={<Rooms />} />
         </Route>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/registration"
-          element={
-            <PublicRoute>
-              <Registration />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/signin"
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
+        <Route path="/registration" element={<Registration />} />
+        <Route path="/signin" element={<Login />} />
         <Route path="/hotels" element={<List />} />
-        <Route
-          path="/hotels/:id"
-          element={
-            <PrivateRoute>
-              <Hotel />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/hotels/:id" element={<Hotel />} />
       </Routes>
     </BrowserRouter>
   );

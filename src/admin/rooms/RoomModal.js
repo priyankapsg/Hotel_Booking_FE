@@ -7,7 +7,7 @@ import useFetch from '../../hooks/useFetch';
 const RoomModal = ({ data, btnName, addRoom, reFetch }) => {
 
   const { data: hotelData, loading, error } = useFetch(
-    "https://booking-app-api-bvpw.onrender.com/api/hotels"
+    "http://localhost:5000/api/hotels"
   );
 
   const [show, setShow] = useState(false);
@@ -65,15 +65,12 @@ const RoomModal = ({ data, btnName, addRoom, reFetch }) => {
   const handleCreate = async (e) => {
     e.preventDefault();
 
-    const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
-
     const newRoom = {
-      ...info,
-      roomNumbers,
+      ...info
     };
 
     try {
-      await axios.post(`https://booking-app-api-bvpw.onrender.com/api/rooms/${hotelId}`, newRoom);
+      await axios.post(`http://localhost:5000/api/rooms/${hotelId}`, newRoom);
 
       handleClose();
       reFetch();
@@ -90,12 +87,11 @@ const RoomModal = ({ data, btnName, addRoom, reFetch }) => {
       maxPeople: editData?.maxPeople,
       price: editData?.price,
       desc: editData?.desc,
-      roomNumbers: editData?.roomNumbers,
     };
 
     try {
       await axios.put(
-        `https://booking-app-api-bvpw.onrender.com/api/rooms/${editData?._id}`,
+        `http://localhost:5000/api/rooms/${editData?._id}`,
         updateRoom
       );
 
@@ -177,41 +173,6 @@ const RoomModal = ({ data, btnName, addRoom, reFetch }) => {
                 onChange={handleChange}
               />
             </FloatingLabel>
-            {addRoom && (
-              <FloatingLabel
-                controlId="roomNumbers"
-                label="Room Numbers (Give comma between room numbers)"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text-area"
-                  name="roomNumbers"
-                  placeholder="Give comma between room numbers... "
-                  height={300}
-                  value={info?.roomNumbers}
-                  onChange={(e) => setRooms(e.target.value)}
-                />
-              </FloatingLabel>
-            )}
-            <Row>
-              {editData?.roomNumbers.map((roomNumber, index) => (
-                <Col xs={6} md={4} lg={3} key={index}>
-                  <FloatingLabel
-                    controlId="roomNumbers"
-                    label={`Room Number ${index + 1}`}
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="text"
-                      id={`roomNumber${index}`}
-                      name="number"
-                      value={roomNumber.number}
-                      onChange={(event) => handleRoomNumberChange(index, event)}
-                    />
-                  </FloatingLabel>
-                </Col>
-              ))}
-            </Row>
             <Row>
               <Col>
                 <FloatingLabel controlId="hotelId" label="Select Hotel">

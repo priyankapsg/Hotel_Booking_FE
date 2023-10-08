@@ -9,44 +9,22 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // For update Hotel State
   const [editData, setEditData] = useState(data);
 
-  // For Create Hotel State
   const [info, setInfo] = useState({})
-
-  const [files, setFiles] = useState("");
-
 
 
   const handleCreate = async (e) => {
 
     e.preventDefault();
 
-     const imageList = await Promise.all(
-       Object.values(files).map(async (file) => {
-         const data = new FormData();
-         data.append("file", file);
-         data.append("upload_preset", "upload");
-         const uploadRes = await axios.post(
-           "https://api.cloudinary.com/v1_1/kmfoysal/image/upload",
-           data
-         );
-
-         const { url } = uploadRes.data;
-         return url;
-       })
-     );
-
     const hotelInfo = {
-
-      ...info,
-      photos: imageList,
+      ...info
     };  
 
     try {
       await axios.post(
-        `https://booking-app-api-bvpw.onrender.com/api/hotels/`,
+        `http://localhost:5000/api/hotels`,
         hotelInfo
       );
 
@@ -60,49 +38,18 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-
-    // const imageList = await Promise.all(
-    //   Object.values(files).map(async (file) => {
-    //     const data = new FormData();
-    //     data.append("file", file);
-    //     data.append("upload_preset", "upload");
-    //     const uploadRes = await axios.post(
-    //       "https://api.cloudinary.com/v1_1/kmfoysal/image/upload",
-    //       data
-    //     );
-
-    //     const { url } = uploadRes.data;
-    //     return url;
-    //   })
-    // );
-
-    // const data = new FormData();
-    // data.append("file", file);
-    // data.append("upload_preset", "upload");
-
-    // const uploadRes = await axios.post(
-    //   "https://api.cloudinary.com/v1_1/kmfoysal/image/upload",
-    //   data
-    // );
-
-    // const { url } = uploadRes.data;
-
     const updateHotel = {
       name: editData?.name,
-      title: editData?.title,
-      type: editData?.type,
       city: editData?.city,
       address: editData?.address,
-      rating: editData?.rating,
-      cheapestPrice: editData?.cheapestPrice,
-      featured: editData?.featured,
       desc: editData?.desc,
-      distance: editData?.distance,
+      rating: editData?.rating,
+      price: editData?.cheapestPrice
     };
 
     try {
       await axios.put(
-        `https://booking-app-api-bvpw.onrender.com/api/hotels/${editData?._id}`,
+        `http://localhost:5000/api/hotels/${editData?._id}`,
         updateHotel
       );
 
@@ -114,11 +61,9 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
   };
 
   const handleChange = (e) => {
-    const type = e.target.type;
 
     const name = e.target.name;
-
-    const value = type === "file" ? e.target.files[0] : e.target.value;
+    const value = e.target.value;
 
     if (addHotel) {
       setInfo((prevData) => ({
@@ -145,36 +90,6 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={addHotel ? handleCreate : handleUpdate}>
-            { addHotel && <div>
-              <div className="formInput text-center mb-4">
-                <img
-                  className=""
-                  src={
-                    files
-                      ? URL.createObjectURL(files[0])
-                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScRhHucTJYJnlCrX8kZX2H6n_S6ictGlu3UQ&usqp=CAU"
-                  }
-                  alt="img"
-                  width={100}
-                />
-                {!files && (
-                  <label
-                    htmlFor="file"
-                    className="d-flex flex-column justify-content-center align-items-center"
-                  >
-                    Upload Hotel images
-                    <input
-                      type="file"
-                      multiple
-                      name="photos"
-                      onChange={(e) => setFiles(e.target.files)}
-                      placeholder="Upload Hotel Images"
-                      style={{ width: "110px" }}
-                    />
-                  </label>
-                )}
-              </div>
-            </div>}
             <Row>
               <Col>
                 <FloatingLabel
@@ -192,25 +107,6 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
                 </FloatingLabel>
               </Col>
               <Col>
-                <FloatingLabel controlId="type" label="Type">
-                  <Form.Select
-                    aria-label="type"
-                    name="type"
-                    value={addHotel ? info?.type : editData?.type}
-                    onChange={handleChange}
-                  >
-                    <option>Select hotel type</option>
-                    <option value="hotel">Hotel</option>
-                    <option value="Apartment">Apartment</option>
-                    <option value="resort">Resort</option>
-                    <option value="villa">Villa</option>
-                    <option value="guest house">Guest House</option>
-                  </Form.Select>
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
                 <FloatingLabel controlId="city" label="City" className="mb-3">
                   <Form.Control
                     type="text"
@@ -221,6 +117,8 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
                   />
                 </FloatingLabel>
               </Col>
+            </Row>
+            <Row>
               <Col>
                 <FloatingLabel
                   controlId="address"
@@ -236,35 +134,7 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
                   />
                 </FloatingLabel>
               </Col>
-            </Row>
-            <Row>
               <Col>
-                <FloatingLabel controlId="title" label="title" className="mb-3">
-                  <Form.Control
-                    type="text"
-                    name="title"
-                    placeholder="Enter title ... "
-                    value={addHotel ? info?.title : editData?.title}
-                    onChange={handleChange}
-                  />
-                </FloatingLabel>
-              </Col>
-              <Col>
-                <FloatingLabel
-                  controlId="distance"
-                  label="Distance from center"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    type="text"
-                    name="distance"
-                    placeholder="Enter distance ... "
-                    value={addHotel ? info?.distance : editData?.distance}
-                    onChange={handleChange}
-                  />
-                </FloatingLabel>
-              </Col>
-            </Row>
             <FloatingLabel
               controlId="desc"
               label="Description"
@@ -279,6 +149,8 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
                 onChange={handleChange}
               />
             </FloatingLabel>
+              </Col>
+            </Row>
             <Row>
               <Col>
                 <FloatingLabel controlId="rating" label="Rating">
@@ -300,7 +172,7 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
               <Col>
                 <FloatingLabel
                   controlId="cheapestPrice"
-                  label="Cheapest Price"
+                  label="Price"
                   className="mb-3"
                 >
                   <Form.Control
@@ -313,19 +185,6 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
                     }
                     onChange={handleChange}
                   />
-                </FloatingLabel>
-              </Col>
-              <Col>
-                <FloatingLabel controlId="featured" label="Featured hotel">
-                  <Form.Select
-                    name="featured"
-                    onChange={handleChange}
-                    value={addHotel ? info?.featured : editData?.featured}
-                  >
-                    <option>Is it Featured hotel ?</option>
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
-                  </Form.Select>
                 </FloatingLabel>
               </Col>
             </Row>
