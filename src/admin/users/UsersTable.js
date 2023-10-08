@@ -46,11 +46,8 @@ const UsersTable = () => {
             <th>SL</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Username</th>
-            <th>Address</th>
             <th>Phone</th>
-            <th>Role</th>
-            <th>Actions</th>
+            <th>Hotel Name</th>
           </tr>
         </thead>
         <tbody>
@@ -62,14 +59,8 @@ const UsersTable = () => {
                   <span>{user?.name}</span>
                 </td>
                 <td>{user?.email}</td>
-                <td>{user?.username}</td>
-                <td>{user?.address ? user?.address : "Not Available"}</td>
                 <td>{user?.phone ? user?.phone : "Not Available"}</td>
-                <td>{user?.isAdmin ? "Admin" : "User"}</td>
-                <td>
-                  <UserModal btnTitle="Edit" data={user} />
-                  <DeleteBtn data={user} loading={loading} />
-                </td>
+                <td>{user?.hotelname}</td>
               </tr>
             );
           })}

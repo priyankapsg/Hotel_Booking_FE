@@ -18,10 +18,9 @@ const Registration = () => {
 
   const user = {
           name: name.current.value,
-          username: username.current.value,
           email: email.current.value,
           password: password.current.value,
-          isAdmin : true
+          isAdmin : true,
       };
       try {
           await axios.post("http://localhost:5000/api/auth/register", user);
@@ -48,9 +47,6 @@ const Registration = () => {
                                           </FloatingLabel>
                                           <FloatingLabel controlId="email" label="Email" className="mb-3">
                                               <Form.Control type="email" placeholder="Enter Your Name ... " ref={email} />
-                                          </FloatingLabel>
-                                          <FloatingLabel controlId="userName" label="User Name" className="mb-3">
-                                              <Form.Control type="text" placeholder="Enter Your user name ... " ref={username} />
                                           </FloatingLabel>
                                           <FloatingLabel controlId="password" label="Password" className="mb-3">
                                               <Form.Control type="password" placeholder="Enter Your user name ... " ref={password} />

@@ -6,59 +6,15 @@ import useFetch from '../../hooks/useFetch';
 import useSearch from '../../hooks/useSearch';
 import './bookingModal.scss';
 
-const BookingModal = ({ data, totalCost, totalDays }) => {
+const BookingModal = ({ data}) => {
 
-  const user = sessionStorage.getItem('user');
-  const { date } = useSearch();
-
-  const [clientInfo, setClientInfo] = useState(user);
-
-  const [selectedRooms, setSelectedRooms] = useState([]);
-
+  const [clientInfo, setClientInfo] = useState('');
   const [show, setShow] = useState(false);
-
   const navigate = useNavigate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const getDatesInRange = (startDate, endDate) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    const getStartDate = new Date(start.getTime());
-
-    const date = [];
-
-    while (getStartDate <= end) {
-      date.push(new Date(getStartDate).getTime());
-      getStartDate.setDate(getStartDate.getDate() + 1);
-    }
-
-    return date;
-  };
-
-  const alldates = getDatesInRange(date[0]?.startDate, date[0]?.endDate);
-
-  const isAvailable = (roomNumber) => {
-    const isFound = roomNumber.unavailableDates.some((date) =>
-      alldates.includes(new Date(date).getTime())
-    );
-
-    return !isFound;
-  };
-
-  const {
-    data: roomData,
-    loading,
-      error,
-    
-    } = useFetch(`http://localhost:5000/api/hotels/room/${data?._id}`);
-    
-    const getRoomNumer = roomData?.map((item) => {
-       return item.roomNumbers.filter((room) => {
-          return selectedRooms?.includes(room?._id);
-        });
-    })
+  // const {} = useFetch(`http://localhost:5000/api/hotels/room/${data?._id}`);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -68,6 +24,7 @@ const BookingModal = ({ data, totalCost, totalDays }) => {
       name: clientInfo?.name,
       email: clientInfo?.email,
       phone: clientInfo?.phone,
+      hotelname : data?.name
   };
     try {
       await axios.post("http://localhost:5000/api/auth/register", user);
