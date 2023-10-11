@@ -61,7 +61,7 @@ const Header = ({ type }) => {
             </h1>
           <div className="booking-wrapper">
               <div className="search-wrapper">
-                <h2 className="searchTitle">Find Hotels and Party</h2>
+                <h2 className="searchTitle">Find Hotels and Party Halls</h2>
                 <div className="headerSearch row">
                   <div className="col-lg-3 col-md-6 mb-lg-0 mb-3">
                     <div className="headerSearchItem headerItemBorder ">

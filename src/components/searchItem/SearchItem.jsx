@@ -7,7 +7,16 @@ const SearchItem = ({ item }) => {
         <div className="searchItem">
             <img src={DemoImg} alt="img" className="siImg" />
             <div className="siDesc">
-                <h1 className="siTitle">{item?.name}</h1>
+                {item?.type === 'hotel' ? 
+                <h1 className="siTitle">
+                    <span className="siHotelButton">Hotel</span> <br /> <br /> 
+                        {item?.name}</h1>
+                 : 
+                <h1 className="siTitle">
+                    <span className="siHotelButton">Party Hall</span> <br /> <br /> 
+                {item?.name}</h1>
+                } 
+
                 <span className="siSubtitle">Studio Apartment with Air conditioning</span>
                 <span className="siFeatures">{item?.desc}</span>
                 <span className="siCancelOp">Free cancellation </span>
@@ -18,7 +27,7 @@ const SearchItem = ({ item }) => {
                     <button>{item?.rating}</button>
                 </div>
                 <div className="siDetailTexts">
-                    <span className="siPrice">{item?.cheapestPrice} Rupees</span>
+                    <span className="siPrice">{item?.cheapestPrice} INR</span>
                     <span className="siTaxOp">Includes taxes and fees</span>
                     <Link to={`/hotels/${item._id}`}>
                         <button className="siCheckButton">See availability</button>

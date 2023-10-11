@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Outlet } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import DashboardHeader from '../dashboardHeader/DashboardHeader';
@@ -7,9 +8,30 @@ import SideBar from '../sideBar/SideBar';
 const Dashboard = () => {
 
   const [menuOpen, setMenuOpen] = useState(true);
-  
+  const [hotelCount, setHotelCount] = useState('');
+  const [hallCount, setHallCount] = useState('');
   const { data } = useFetch("http://localhost:5000/api/users");
-  const { data:hotels } = useFetch("http://localhost:5000/api/hotels");
+
+useEffect(() => {
+   hotelC();
+   hallC();
+}, [])
+  
+  
+const hotelC = ( async () => {
+ await axios.get(`http://localhost:5000/api/hotels?type=hotel`)
+ .then((res) => {
+  setHotelCount(res?.data?.length)
+ }) 
+}) 
+
+const hallC = ( async () => {
+ await axios.get(`http://localhost:5000/api/hotels?type=party_hall`)
+ .then((res) => {
+  setHallCount(res?.data?.length)
+ }) 
+}) 
+
 
 
   return (
@@ -49,7 +71,7 @@ const Dashboard = () => {
               />
               <div>
                 <h5>Total Hotels</h5>
-                <h6>{hotels?.length}</h6>
+                <h6>{hotelCount}</h6>
               </div>
             </div>
             <div
@@ -64,8 +86,8 @@ const Dashboard = () => {
                 height={40}
               />
               <div>
-                <h5>Total Rooms</h5>
-                <h6>5</h6>
+                <h5>Total Party Halls</h5>
+                <h6>{hallCount}</h6>
               </div>
             </div>
           </div>

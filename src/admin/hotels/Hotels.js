@@ -29,9 +29,7 @@ const DeleteBtn = ({ data, loading, reFetch }) => {
 
 const Hotels = () => {
 
-      const { data, loading, reFetch, error } = useFetch(
-        "http://localhost:5000/api/hotels"
-      );
+      const { data, loading, reFetch, error } = useFetch(`http://localhost:5000/api/hotels?type=hotel`);
     return (
       <div>
         <div className="d-flex justify-content-between align-items-center mb-3">
@@ -50,7 +48,7 @@ const Hotels = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((hotel, index) => {
+            {data?.length && data.map((hotel, index) => {
               return (
                 <tr key={index}>
                   <td>{index + 1}</td>

@@ -4,7 +4,7 @@ import {
 import { ToastContainer } from 'react-toastify';
 import Dashboard from './admin/dashboard/Dashboard';
 import Hotels from "./admin/hotels/Hotels";
-import Rooms from "./admin/rooms/Rooms";
+import Party from "./admin/partyHalls/party";
 import UsersTable from "./admin/users/UsersTable";
 import './app.scss';
 import Home from "./pages/home/Home";
@@ -23,8 +23,7 @@ function App() {
         <Route path="admin/dashboard" element={<Dashboard />}>
           <Route path="users" element={<UsersTable />} />
           <Route path="hotels" element={<Hotels />} />
-          <Route path="rooms" element={<Rooms />} />
-          <Route path="party_hall" element={<Rooms />} />
+          <Route path="party_hall" element={<Party />} />
         </Route>
         <Route path="/" element={<Home />} />
         <Route path="/registration" element={<Registration />} />

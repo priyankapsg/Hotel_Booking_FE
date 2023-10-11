@@ -19,7 +19,7 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
     e.preventDefault();
 
     const hotelInfo = {
-      ...info, type: 'hotel',
+      ...info, type: 'party_hall',
     };  
 
     try {
@@ -86,7 +86,7 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
 
       <Modal centered size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{addHotel ? "Create" : "Edit"} Hotel</Modal.Title>
+          <Modal.Title>{addHotel ? "Create" : "Edit"} Party Hall</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={addHotel ? handleCreate : handleUpdate}>
@@ -94,7 +94,7 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
               <Col>
                 <FloatingLabel
                   controlId="name"
-                  label="Hotel Name"
+                  label="Hall Name"
                   className="mb-3"
                 >
                   <Form.Control

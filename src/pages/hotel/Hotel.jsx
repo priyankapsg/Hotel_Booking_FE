@@ -34,7 +34,7 @@ const Hotel = () => {
                       <FontAwesomeIcon icon={faLocationDot} />
                       <span>{data?.address}</span>
                   </div>
-                    <span className="siPrice">{data?.cheapestPrice} Rupees</span>
+                    <span className="siPrice">{data?.cheapestPrice} INR</span>
                     <span className="siTaxOp">Includes taxes and fees</span>
                   <div className="hotelImages">
                           <div className="hotelImgWrapper">

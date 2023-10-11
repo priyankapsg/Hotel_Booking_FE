@@ -37,9 +37,6 @@ const handleLogout = () => {
           <Link to="/admin/dashboard/hotels" className="main-menu-link">
             Hotels
           </Link>
-          <Link to="/admin/dashboard/rooms" className="main-menu-link">
-            Rooms
-          </Link>
           <Link to="/admin/dashboard/party_hall" className="main-menu-link">
             Party Halls
           </Link>
