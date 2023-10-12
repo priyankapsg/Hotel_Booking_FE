@@ -1,35 +1,37 @@
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import React from 'react';
 import { Table } from 'react-bootstrap';
 import useFetch from '../../hooks/useFetch';
 import HotelModal from './partyModal';
-
-
-const DeleteBtn = ({ data, loading, reFetch }) => {
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:5000/api/hotels/${data?._id}`);
-      reFetch();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  return (
-    <button
-      className="ms-2 btn btn-danger"
-      onClick={handleDelete}
-      disabled={loading}
-    >
-      {loading ? "Loading" : "Delete"}
-    </button>
-  );
-};
-
+import { toast } from 'react-toastify';
 
 const Party = () => {
 
-      const { data, loading, reFetch, error } = useFetch(`http://localhost:5000/api/hotels?type=party_hall`);
+  const [fetch, setFetch] = useState(false);
+  const [data, setData] = useState(); 
+  
+  useEffect(() => {
+    getHalls(); 
+  }, [fetch])  
+
+  const DeleteBtn = async (data) => {
+      try {
+        await axios.delete(`http://localhost:5000/api/hotels/${data?._id}`);
+        toast.success("Party Hall deleted successfully");            
+        setFetch(true);
+      } catch (err) {
+        console.log(err);
+      }
+  };
+
+
+const getHalls = async () => {
+    await axios.get(`http://localhost:5000/api/hotels?type=party_hall`)
+    .then((res) => {
+    setData(res?.data);
+    })
+  }  
+
     return (
       <div>
         <div className="d-flex justify-content-between align-items-center mb-3">
@@ -61,15 +63,14 @@ const Party = () => {
                   <td className="d-flex">
                     <HotelModal
                       data={hotel}
-                      loading={loading}
-                      reFetch={reFetch}
                       btnName="Edit"
                     />
-                    <DeleteBtn
-                      data={hotel}
-                      loading={loading}
-                      reFetch={reFetch}
-                    />
+                    <button
+                    className="ms-2 btn btn-danger"
+                    onClick = { () => DeleteBtn(hotel)}                    
+                    >
+                    Delete
+                    </button>
                   </td>
                 </tr>
               );

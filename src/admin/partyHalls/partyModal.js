@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Col, FloatingLabel, Form, Modal, Row } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
 
@@ -15,21 +16,18 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
 
 
   const handleCreate = async (e) => {
-
     e.preventDefault();
-
     const hotelInfo = {
       ...info, type: 'party_hall',
     };  
-
     try {
-      await axios.post(
-        `http://localhost:5000/api/hotels`,
-        hotelInfo
-      );
-
+      await axios.post(`http://localhost:5000/api/hotels`,hotelInfo);
       handleClose();
-      reFetch();
+      // reFetch();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+      toast.success("Party Hall created successfully");            
     } catch (err) {
       console.log(err);
     }
@@ -48,13 +46,13 @@ const HotelModal = ({ data, loading, reFetch, btnName, addHotel }) => {
     };
 
     try {
-      await axios.put(
-        `http://localhost:5000/api/hotels/${editData?._id}`,
-        updateHotel
-      );
-
+      await axios.put(`http://localhost:5000/api/hotels/${editData?._id}`,updateHotel);
       handleClose();
-      reFetch()
+      // reFetch()
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+      toast.success("Party Hall updated successfully");
     } catch (err) {
       console.log(err);
     }

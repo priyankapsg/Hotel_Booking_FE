@@ -67,16 +67,10 @@ return (
                     />
                     <button
                     className="ms-2 btn btn-danger"
-                    onClick = { () => DeleteBtn(hotel)}
-                    
+                    onClick = { () => DeleteBtn(hotel)}                    
                     >
                     Delete
                     </button>
-                    {/* <DeleteBtn
-                      data={hotel}
-                      btnName="Delete"
-                      setFetch={setFetch}
-                    /> */}
                   </td>
                 </tr>
               );
