@@ -1,36 +1,37 @@
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import React from 'react';
 import { Table } from 'react-bootstrap';
-import useFetch from '../../hooks/useFetch';
 import HotelModal from './HotelModal';
-
-
-const DeleteBtn = ({ data, loading, reFetch }) => {
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:5000/api/hotels/${data?._id}`);
-      reFetch();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  return (
-    <button
-      className="ms-2 btn btn-danger"
-      onClick={handleDelete}
-      disabled={loading}
-    >
-      {loading ? "Loading" : "Delete"}
-    </button>
-  );
-};
-
+import { toast } from 'react-toastify';
 
 const Hotels = () => {
 
-      const { data, loading, reFetch, error } = useFetch(`http://localhost:5000/api/hotels?type=hotel`);
-    return (
+const [fetch, setFetch] = useState(false);
+const [data, setData] = useState();
+  
+useEffect(() => {
+  getHotels(); 
+}, [fetch])
+
+const DeleteBtn = async (data) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/hotels/${data?._id}`);
+      toast.success("Hotel deleted successfully");            
+      setFetch(true);
+    } catch (err) {
+      console.log(err);
+    }
+};
+
+const getHotels = async () => {
+  await axios.get(`http://localhost:5000/api/hotels?type=hotel`)
+  .then((res) => {
+  setData(res?.data);
+  })
+}
+
+
+return (
       <div>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h4>Hotels Table</h4>
@@ -61,15 +62,21 @@ const Hotels = () => {
                   <td className="d-flex">
                     <HotelModal
                       data={hotel}
-                      loading={loading}
-                      reFetch={reFetch}
                       btnName="Edit"
+                      setFetch={setFetch}
                     />
-                    <DeleteBtn
+                    <button
+                    className="ms-2 btn btn-danger"
+                    onClick = { () => DeleteBtn(hotel)}
+                    
+                    >
+                    Delete
+                    </button>
+                    {/* <DeleteBtn
                       data={hotel}
-                      loading={loading}
-                      reFetch={reFetch}
-                    />
+                      btnName="Delete"
+                      setFetch={setFetch}
+                    /> */}
                   </td>
                 </tr>
               );
